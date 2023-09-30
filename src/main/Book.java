@@ -1,8 +1,38 @@
 package main;
 
 import java.time.LocalDate;
-
+/*TODO description of class */
 public class Book {
+	/**
+	 * Unique number that identifies the book 
+	 */
+	private int id;
+	
+	/**
+	 * Name of the book
+	 */
+	private String title;
+	
+	/**
+	 * Who authored the book
+	 */
+	private String author;
+	
+	/**
+	 * What genre the book belongs to
+	 */
+	private String genre; //TODO maybe use an enum with all 5 posible genres?
+	
+	/**
+	 * The last date where someone borrowed the book
+	 */
+	private LocalDate lastCheckOutDate;
+	
+	/**
+	 * Indicates whether the book is currently checked out
+	 * of the library
+	 */
+	private Boolean checkOut;
 	
 	public int getId() {
 		return -10;
