@@ -7,68 +7,112 @@ public class Book {
 	 * Unique number that identifies the book 
 	 */
 	private int id;
-	
 	/**
 	 * Name of the book
 	 */
 	private String title;
-	
 	/**
 	 * Who authored the book
 	 */
 	private String author;
-	
 	/**
 	 * What genre the book belongs to
 	 */
-	private String genre; //TODO maybe use an enum with all 5 posible genres?
-	
+	private String genre;
 	/**
-	 * The last date where someone borrowed the book
+	 * The last date where someone borrowed the book from
+	 * the library
 	 */
-	private LocalDate lastCheckOutDate;
-	
+	private LocalDate lastCheckOut;
 	/**
 	 * Indicates whether the book is currently checked out
 	 * of the library
 	 */
-	private Boolean checkOut;
+	private Boolean checkedOut;
 	
+	/**
+	 * Gets this book's ID.
+	 * @return	The book ID
+	 */
 	public int getId() {
-		return -10;
+		return id;
 	}
+	/**
+	 * Assigns an ID to the book in the library.
+	 * @param id The ID the book will have in the library
+	 */
 	public void setId(int id) {
-		
+		this.id = id;
 	}
+	/**
+	 * Gets this book's title.
+	 * @return The book title
+	 */
 	public String getTitle() {
-		return "";
+		return title;
 	}
+	/**
+	 * Assigns a title to the book.
+	 * @param title The title to be assigned to the book
+	 */
 	public void setTitle(String title) {
-		
+		this.title = title;
 	}
+	/**
+	 * Gets this book's author.
+	 * @return The book author
+	 */
 	public String getAuthor() {
-		return "";
+		return author;
 	}
+	/**
+	 * Assigns an author to the book.
+	 * @param author The author's name to be assigned to the book
+	 */
 	public void setAuthor(String author) {
-		
+		this.author = author;
 	}
+	/**
+	 * Gets this book's genre.
+	 * @return The book genre
+	 */
 	public String getGenre() {
-		return "";
+		return genre;
 	}
+	/**
+	 * Assigns a book genre.
+	 * @param genre The genre of the book
+	 */
 	public void setGenre(String genre) {
-		
+		this.genre = genre;
 	}
+	/**
+	 * Gets this book's last check out date.
+	 * @return The book's last check out date
+	 */
 	public LocalDate getLastCheckOut() {
-		return null;
+		return lastCheckOut;
 	}
+	/**
+	 * Assigns a check out date.
+	 * @param lastCheckOut Date the book was checked out form the library
+	 */
 	public void setLastCheckOut(LocalDate lastCheckOut) {
-		
+		this.lastCheckOut = lastCheckOut;
 	}
+	/**
+	 * Checks if the book is currently checked out of the library.
+	 * @return True if the book is currently checked out
+	 */
 	public boolean isCheckedOut() {
-		return false;
+		return checkedOut;
 	}
+	/**
+	 * Assigns a check out status.
+	 * @param checkedOut Whether the book is currently checked out
+	 */
 	public void setCheckedOut(boolean checkedOut) {
-		
+		this.checkedOut = checkedOut;
 	}
 	
 	@Override
