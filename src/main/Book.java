@@ -115,6 +115,10 @@ public class Book {
 		this.checkedOut = checkedOut;
 	}
 	
+	/**
+	 * Describes the book by returning it's title and author.
+	 * @return A string representing the book by giving it's title and author
+	 */
 	@Override
 	public String toString() {
 		/*
@@ -124,7 +128,7 @@ public class Book {
 		 * 
 		 * Both the title and author are in uppercase.
 		 */
-		return "";
+		return title.toUpperCase() + " BY " + author.toUpperCase();
 	}
 	public float calculateFees() {
 		/*
