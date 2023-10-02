@@ -1,6 +1,8 @@
 package main;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 /*TODO description of class */
 public class Book {
 	/**
@@ -29,6 +31,29 @@ public class Book {
 	 * of the library
 	 */
 	private Boolean checkedOut;
+	
+	/*TODO comment constructors*/
+	/*TODO test constructors*/
+	public Book(int id, String title, String author, String genre, LocalDate lastCheckOut, Boolean checkedOut) {
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.genre = genre;
+		this.lastCheckOut = lastCheckOut;
+		this.checkedOut = checkedOut;
+	}
+	public Book(int id, String title, String author, String genre) {
+		this(id, title, author, genre, null, null);
+	}
+	public Book(String title, String author, String genre) {
+		this(-1, title, author, genre, null, null);
+	}
+	public Book(String title, String author) {
+		this(-1, title, author, null, null, null);
+	}
+	public Book(String title) {
+		this(-1, title, null, null, null, null);
+	}
 	
 	/**
 	 * Gets this book's ID.
@@ -134,6 +159,25 @@ public class Book {
 		/*
 		 * fee (if applicable) = base fee + 1.5 per additional day
 		 */
-		return -1000;
+		
+		//Book has not been checked out
+		if (!this.isCheckedOut()) {
+			return 0;
+		}
+		
+		//Specifications say to take September 15, 2023 as "today's date"
+		LocalDate currentDate = LocalDate.parse("2023-09-15");
+		LocalDate cutOffDate = this.lastCheckOut.plusDays(31);
+		
+		long daysOverdue = cutOffDate.until(currentDate, ChronoUnit.DAYS);
+		
+		if (daysOverdue < 0) {
+			return 10;
+		}
+		else {
+			double fees = 10 + 1.5 * daysOverdue;
+			return (float) fees;
+		}
+		
 	}
 }
