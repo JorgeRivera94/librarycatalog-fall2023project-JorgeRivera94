@@ -3,7 +3,10 @@ package main;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-/*TODO description of class */
+/**
+ * This class represents a book in a library.
+ * @author jorge
+ */
 public class Book {
 	/**
 	 * Unique number that identifies the book 
@@ -32,8 +35,15 @@ public class Book {
 	 */
 	private Boolean checkedOut;
 	
-	/*TODO comment constructors*/
-	/*TODO test constructors*/
+	/**
+	 * Main constructor for the Book class.
+	 * @param id Unique number that identifies the book
+	 * @param title Name of the book
+	 * @param author Who authored the book
+	 * @param genre What genre the book belongs to
+	 * @param lastCheckOut The last date where someone borrowed the book from the library
+	 * @param checkedOut Indicates whether the book is currently checked out of the library
+	 */
 	public Book(int id, String title, String author, String genre, LocalDate lastCheckOut, Boolean checkedOut) {
 		this.id = id;
 		this.title = title;
@@ -42,15 +52,41 @@ public class Book {
 		this.lastCheckOut = lastCheckOut;
 		this.checkedOut = checkedOut;
 	}
+	/**
+	 * Constructor for an instance of Book, without having been checked out.
+	 * Missing parameters are initialized to null.
+	 * @param id Unique number that identifies the book
+	 * @param title Name of the book
+	 * @param author Who authored the book
+	 * @param genre What genre the book belongs to
+	 */
 	public Book(int id, String title, String author, String genre) {
 		this(id, title, author, genre, null, null);
 	}
+	/**
+	 * Constructor for an instance of Book without an assigned ID.
+	 * ID is initialized to -1 and the other missing fields are initialized to null.
+	 * @param title Name of the book
+	 * @param author Who authored the book
+	 * @param genre What genre the book belongs to
+	 */
 	public Book(String title, String author, String genre) {
 		this(-1, title, author, genre, null, null);
 	}
+	/**
+	 * Constructor for an instance of Book without an assigned ID or genre.
+	 * ID is initialized to -1 and the other missing fields are initialized to null.
+	 * @param title Name of the book
+	 * @param author Who authored the book
+	 */
 	public Book(String title, String author) {
 		this(-1, title, author, null, null, null);
 	}
+	/**
+	 * Constructor for an instance of Book while only knowing it's title.
+	 * ID is initialized to -1 and the other missing fields are initialized to null.
+	 * @param title Name of the book
+	 */
 	public Book(String title) {
 		this(-1, title, null, null, null, null);
 	}
@@ -155,6 +191,12 @@ public class Book {
 		 */
 		return title.toUpperCase() + " BY " + author.toUpperCase();
 	}
+	
+	/**
+	 * Method to calculate the fees on a book based on if the book is currently
+	 * checked out and the last check out date.
+	 * @return A float value representing the fees, in dollars, on a book
+	 */
 	public float calculateFees() {
 		/*
 		 * fee (if applicable) = base fee + 1.5 per additional day
