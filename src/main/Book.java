@@ -11,7 +11,7 @@ public class Book {
 	/**
 	 * Unique number that identifies the book 
 	 */
-	private int id;
+	private Integer id;
 	/**
 	 * Name of the book
 	 */
@@ -44,7 +44,7 @@ public class Book {
 	 * @param lastCheckOut The last date where someone borrowed the book from the library
 	 * @param checkedOut Indicates whether the book is currently checked out of the library
 	 */
-	public Book(int id, String title, String author, String genre, LocalDate lastCheckOut, Boolean checkedOut) {
+	public Book(Integer id, String title, String author, String genre, LocalDate lastCheckOut, Boolean checkedOut) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
@@ -60,35 +60,35 @@ public class Book {
 	 * @param author Who authored the book
 	 * @param genre What genre the book belongs to
 	 */
-	public Book(int id, String title, String author, String genre) {
+	public Book(Integer id, String title, String author, String genre) {
 		this(id, title, author, genre, null, null);
 	}
 	/**
 	 * Constructor for an instance of Book without an assigned ID.
-	 * ID is initialized to -1 and the other missing fields are initialized to null.
+	 * Missing fields are initialized to null.
 	 * @param title Name of the book
 	 * @param author Who authored the book
 	 * @param genre What genre the book belongs to
 	 */
 	public Book(String title, String author, String genre) {
-		this(-1, title, author, genre, null, null);
+		this(null, title, author, genre, null, null);
 	}
 	/**
 	 * Constructor for an instance of Book without an assigned ID or genre.
-	 * ID is initialized to -1 and the other missing fields are initialized to null.
+	 * Missing fields are initialized to null.
 	 * @param title Name of the book
 	 * @param author Who authored the book
 	 */
 	public Book(String title, String author) {
-		this(-1, title, author, null, null, null);
+		this(null, title, author, null, null, null);
 	}
 	/**
 	 * Constructor for an instance of Book while only knowing it's title.
-	 * ID is initialized to -1 and the other missing fields are initialized to null.
+	 * Missing fields are initialized to null.
 	 * @param title Name of the book
 	 */
 	public Book(String title) {
-		this(-1, title, null, null, null, null);
+		this(null, title, null, null, null, null);
 	}
 	
 	/**
