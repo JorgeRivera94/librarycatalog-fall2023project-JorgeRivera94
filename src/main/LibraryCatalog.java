@@ -3,6 +3,7 @@ package main;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,30 +15,193 @@ import data_structures.SinglyLinkedList;
 import interfaces.FilterFunction;
 import interfaces.List;
 
+/**
+ * This class represents the library. It manages the library's users and
+ * book catalog.
+ * @author jorge
+ *
+ */
 public class LibraryCatalog {
+	/**
+	 * A list of books that the library owns
+	 */
+	private List<Book> catalog;
+	/**
+	 * A list of users that are clients of the library
+	 */
+	private List<User> users;
 	
-		
+	/**
+	 * Default constructor for the LibraryCatalog Class.
+	 * Uses an ArrayList for the book catalog because it is assumed that
+	 * the amount of books will not constantly grow and reduce, and to
+	 * facilitate finding a specific book by it's index.
+	 * Uses a SinglyLinkedList for the user list because it is not vital
+	 * to have direct access to users by their ID.
+	 * @throws IOException
+	 */
 	public LibraryCatalog() throws IOException {
-		
-	}
-	private List<Book> getBooksFromFiles() throws IOException {
-		return null;
+		this.catalog = getBooksFromFiles();
+		this.users = getUsersFromFiles();
 	}
 	
+	/**
+	 * Private method called by the constructor in order to fill the book
+	 * catalog with Book instances described by information in files.
+	 * @return A List containing Book objects that serves as the library's 
+	 * catalog
+	 * @throws IOException if there is no catalog.csv in data/catalog.csv
+	 */
+	private List<Book> getBooksFromFiles() throws IOException {
+		
+		List<Book> bookList = new ArrayList<Book>();
+		String fileName = "data/catalog.csv";
+		String line;
+		Integer id;
+		String title;
+		String author;
+		String genre;
+		String lastCheckOut;
+		Boolean checkedOut;
+		int index;
+		
+		try {
+			var reader = new BufferedReader(new FileReader(fileName));
+		
+			//discard first line
+			reader.readLine();
+			
+			while ((line = reader.readLine()) != null) {
+				//Get book ID
+				index = line.indexOf(',');
+				id = Integer.valueOf(line.substring(0, index));
+				line = line.substring(index +1);
+				
+				//Get book title
+				index = line.indexOf(',');
+				title = line.substring(0, index);
+				line = line.substring(index +1);
+				
+				//Get book author
+				index = line.indexOf(',');
+				author = line.substring(0, index);
+				line = line.substring(index +1);
+				
+				//Get book genre
+				index = line.indexOf(',');
+				genre = line.substring(0, index);
+				line = line.substring(index +1);
+				
+				//Get last check out
+				index = line.indexOf(',');
+				lastCheckOut = line.substring(0, index);
+				line = line.substring(index +1);
+				
+				//check if book is checked out
+				checkedOut = Boolean.valueOf(line);
+				
+				//instantiate book and add it to the list
+				bookList.add(new Book(id, title, author, genre, lastCheckOut, checkedOut));
+			}
+			reader.close();
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
+		return bookList;
+	}
+	/**
+	 * Private method called by the constructor in order to fill the user
+	 * list with User instances described by information in files.
+	 * @return A List containing User objects that represent the library's
+	 * clients
+	 * @throws IOException if there is no user.csv in data/user.csv
+	 */
 	private List<User> getUsersFromFiles() throws IOException {
-		return null;
+		
+		List<User> userList = new ArrayList<User>();
+		//User(Integer id, String name, List<Book> checkedOutList)
+		String fileName = "data/user.csv";
+		String line;
+		Integer id;
+		String name;
+		List<Book> checkedOutList;
+		int index;
+		String[] bookIDs;
+		
+		var reader = new BufferedReader(new FileReader(fileName));
+		
+		//discard first line
+		reader.readLine();
+		
+		while ((line = reader.readLine()) != null) {
+			//Get user ID
+			index = line.indexOf(',');
+			id = Integer.valueOf(line.substring(0, index));
+			line = line.substring(index +1);
+			
+			//Get user's full name
+			index = line.indexOf(',');
+			name = line.substring(0, index);
+			line = line.substring(index);
+			
+			//Get user's checked out book's IDs
+			if (line.length() > 1) {
+				checkedOutList = new SinglyLinkedList<Book>();
+				line = line.substring(2, line.length() -1);
+				bookIDs = line.split(" ");
+				
+				for (String e : bookIDs) {
+					checkedOutList.add(this.catalog.get(Integer.valueOf(e) -1));
+				}
+				
+			}
+			else {
+				checkedOutList = null;
+			}
+			userList.add(new User(id, name, checkedOutList));
+		}
+		reader.close();
+		
+		return userList;
 	}
+	/**
+	 * Gets this library's book catalog.
+	 * @return A List of books the library owns
+	 */
 	public List<Book> getBookCatalog() {
-		return null;
+		return this.catalog;
 	}
+	/**
+	 * Gets this library's user list
+	 * @return A List of users that the library has
+	 */
 	public List<User> getUsers() {
-		return null;
+		return this.users;
 	}
+	/**
+	 * Adds a new book the the library's catalog. 
+	 * @param title The book's title
+	 * @param author The book's author
+	 * @param genre The book's genre
+	 */
 	public void addBook(String title, String author, String genre) {
+		catalog.add(new Book(this.catalog.size() +1, title, author, genre, "2023-09-15", false));
 		return;
 	}
+	/**
+	 * Searches fot the book in the catalog that has
+	 * the given ID and removes it.
+	 * @param id ID of the book to be removed from the
+	 * catalog
+	 */
 	public void removeBook(int id) {
-		return;
+		for (int i = 0; i < catalog.size(); i++) {
+			if (catalog.get(i).getId().equals(id)) {
+				catalog.remove(i);
+				return;
+			}
+		}
 	}	
 	
 	public boolean checkOutBook(int id) {
@@ -47,8 +211,19 @@ public class LibraryCatalog {
 		return true;
 	}
 	
+	/**
+	 * Checks if the book with the given ID is available 
+	 * for check out.
+	 * @param id The book's ID
+	 * @return true if the book is available for check out
+	 */
 	public boolean getBookAvailability(int id) {
-		return true;
+		for (int i = 0; i < catalog.size(); i++) {
+			if (catalog.get(i).getId().equals(id)) {
+				return !catalog.get(i).isCheckedOut();
+			}
+		}
+		return false;
 	}
 	public int bookCount(String title) {
 		return 1000;
