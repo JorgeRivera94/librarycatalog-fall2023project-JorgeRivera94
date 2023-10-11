@@ -44,12 +44,12 @@ public class Book {
 	 * @param lastCheckOut The last date where someone borrowed the book from the library
 	 * @param checkedOut Indicates whether the book is currently checked out of the library
 	 */
-	public Book(Integer id, String title, String author, String genre, LocalDate lastCheckOut, Boolean checkedOut) {
+	public Book(Integer id, String title, String author, String genre, String lastCheckOut, Boolean checkedOut) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.lastCheckOut = lastCheckOut;
+		this.lastCheckOut = LocalDate.parse(lastCheckOut);
 		this.checkedOut = checkedOut;
 	}
 	/**
@@ -95,14 +95,14 @@ public class Book {
 	 * Gets this book's ID.
 	 * @return	The book ID
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	/**
 	 * Assigns an ID to the book in the library.
 	 * @param id The ID the book will have in the library
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	/**
