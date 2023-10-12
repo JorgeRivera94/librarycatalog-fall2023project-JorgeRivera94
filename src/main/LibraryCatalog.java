@@ -126,6 +126,7 @@ public class LibraryCatalog {
 		Integer id;
 		String name;
 		List<Book> checkedOutList;
+		
 		int index;
 		String[] bookIDs;
 		
@@ -146,18 +147,15 @@ public class LibraryCatalog {
 			line = line.substring(index);
 			
 			//Get user's checked out book's IDs
+			checkedOutList = new SinglyLinkedList<Book>();
 			if (line.length() > 1) {
-				checkedOutList = new SinglyLinkedList<Book>();
 				line = line.substring(2, line.length() -1);
 				bookIDs = line.split(" ");
 				
 				for (String e : bookIDs) {
-					checkedOutList.add(this.catalog.get(Integer.valueOf(e) -1));
+					checkedOutList.add(0, this.catalog.get(Integer.valueOf(e) -1));
 				}
 				
-			}
-			else {
-				checkedOutList = null;
 			}
 			userList.add(new User(id, name, checkedOutList));
 		}
@@ -348,12 +346,39 @@ public class LibraryCatalog {
 	 * You are not required to implement these, but they can be useful for
 	 * other parts of the project.
 	 */
+	/**
+	 * Functional method to filter the catalog's books to match
+	 * a parameter lambda function
+	 * @param func Lambda function to evaluate the books in the library's
+	 * catalog
+	 * @return A List that contains the books that comply with the given
+	 * lambda function
+	 */
 	public List<Book> searchForBook(FilterFunction<Book> func) {
-		return null;
+		List<Book> toReturn = new SinglyLinkedList<Book>();
+		for (Book e : catalog) {
+			if (func.filter(e)) {
+				toReturn.add(0, e);
+			}
+		}
+		return toReturn;
 	}
-	
+	/**
+	 * Functional method to filter the library's users to match
+	 * a parameter lambda function
+	 * @param func Lambda function to evaluate the clients in the library's
+	 * user list
+	 * @return A List that contains the users that comply with the given
+	 * lambda function
+	 */
 	public List<User> searchForUsers(FilterFunction<User> func) {
-		return null;
+		List<User> toReturn = new SinglyLinkedList<User>();
+		for (User e : users) {
+			if (func.filter(e)) {
+				toReturn.add(0, e);
+			}
+		}
+		return toReturn;
 	}
 	
 }
