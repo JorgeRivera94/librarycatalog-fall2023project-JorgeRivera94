@@ -204,8 +204,26 @@ public class LibraryCatalog {
 		}
 	}	
 	
+	/**
+	 * Checks out a book from the library if it is not
+	 * already checked out. If it checks out a book, it
+	 * changes the book's check out status to true and 
+	 * check out date to today, September 15, 2023.
+	 * @param id ID of the book to be checked out
+	 * @return true if it manages to check out the book
+	 */
 	public boolean checkOutBook(int id) {
-		return true;
+		if (getBookAvailability(id)) {
+			for (int i = 0; i < catalog.size(); i++) {
+				if (catalog.get(i).getId().equals(id)) {
+					Book toCheckOut = catalog.get(i);
+					toCheckOut.setCheckedOut(true);
+					toCheckOut.setLastCheckOut(LocalDate.parse("2023-09-15"));
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	public boolean returnBook(int id) {
 		return true;
