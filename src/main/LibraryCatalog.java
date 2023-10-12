@@ -17,17 +17,26 @@ import interfaces.List;
 
 /**
  * This class represents the library. It manages the library's users and
- * book catalog.
+ * book catalog. It contains the private fields catalog, that acts as the
+ * library's book catalog; and users, that is a List of the library's
+ * clients.
  * @author jorge
  *
  */
 public class LibraryCatalog {
 	/**
-	 * A list of books that the library owns
+	 * A list of books that the library owns. It is implemented using an
+	 * ArrayList to facilitate direct access to particular books in the
+	 * catalog. This adds complexity to the add() method, specially in 
+	 * the LibraryCatalog constructor, but it is better because there are
+	 * many methods that will be reading the List and giving them direct
+	 * access is worth the trade in complexity.
 	 */
 	private List<Book> catalog;
 	/**
-	 * A list of users that are clients of the library
+	 * A list of users that are clients of the library. It is implemented as
+	 * an ArrayList because once created in the LibraryCatalog constructor,
+	 * it's size does not change.
 	 */
 	private List<User> users;
 	
@@ -36,8 +45,8 @@ public class LibraryCatalog {
 	 * Uses an ArrayList for the book catalog because it is assumed that
 	 * the amount of books will not constantly grow and reduce, and to
 	 * facilitate finding a specific book by it's index.
-	 * Uses a SinglyLinkedList for the user list because it is not vital
-	 * to have direct access to users by their ID.
+	 * Uses ArrayList for the user List because once created in the 
+	 * LibraryCatalog constructor it's size is not affected.
 	 * @throws IOException
 	 */
 	public LibraryCatalog() throws IOException {
@@ -48,9 +57,9 @@ public class LibraryCatalog {
 	/**
 	 * Private method called by the constructor in order to fill the book
 	 * catalog with Book instances described by information in files.
-	 * @return A List containing Book objects that serves as the library's 
+	 * @return An ArrayList containing Book objects that serves as the library's 
 	 * catalog
-	 * @throws IOException if there is no catalog.csv in data/catalog.csv
+	 * @throws IOException If there is no catalog.csv in data/catalog.csv
 	 */
 	private List<Book> getBooksFromFiles() throws IOException {
 		
@@ -113,7 +122,7 @@ public class LibraryCatalog {
 	/**
 	 * Private method called by the constructor in order to fill the user
 	 * list with User instances described by information in files.
-	 * @return A List containing User objects that represent the library's
+	 * @return An ArrayList containing User objects that represent the library's
 	 * clients
 	 * @throws IOException if there is no user.csv in data/user.csv
 	 */

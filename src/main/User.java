@@ -3,7 +3,9 @@ package main;
 import interfaces.List;
 
 /**
- * This class represents a library user.
+ * This class represents a library user. It contains private
+ * fields representing the client's ID, full name and the list
+ * of books they have currently checked out.
  * @author jorge
  */
 public class User {

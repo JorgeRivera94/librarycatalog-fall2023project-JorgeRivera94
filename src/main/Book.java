@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 /**
- * This class represents a book in a library.
+ * This class represents a book in a library. It contains
+ * private fields representing the book ID, title, author,
+ * genre and also whether or not he book is checked out and
+ * the date of it's last check-out.
  * @author jorge
  */
 public class Book {
