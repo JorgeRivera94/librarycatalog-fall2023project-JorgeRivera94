@@ -120,7 +120,6 @@ public class LibraryCatalog {
 	private List<User> getUsersFromFiles() throws IOException {
 		
 		List<User> userList = new ArrayList<User>();
-		//User(Integer id, String name, List<Book> checkedOutList)
 		String fileName = "data/user.csv";
 		String line;
 		Integer id;
@@ -188,7 +187,7 @@ public class LibraryCatalog {
 		return;
 	}
 	/**
-	 * Searches fot the book in the catalog that has
+	 * Searches for the book in the catalog that has
 	 * the given ID and removes it.
 	 * @param id ID of the book to be removed from the
 	 * catalog
@@ -258,8 +257,17 @@ public class LibraryCatalog {
 		}
 		return false;
 	}
+	
+	/**
+	 * Returns the amount of of books of the same title are
+	 * present in the library's catalog.
+	 * @param title The title of the books to be counted
+	 * @return The amount of books of the parameter title
+	 * in the catalog
+	 */
 	public int bookCount(String title) {
-		return 1000;
+		List<Book> toCount = searchForBook(x -> x.getTitle().equals(title));
+		return toCount.size();
 	}
 	public void generateReport() throws IOException {
 		
