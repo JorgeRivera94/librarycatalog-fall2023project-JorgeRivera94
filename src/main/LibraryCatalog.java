@@ -269,6 +269,16 @@ public class LibraryCatalog {
 		List<Book> toCount = searchForBook(x -> x.getTitle().equals(title));
 		return toCount.size();
 	}
+	/**
+	 * Generates a .txt file with a report that includes
+	 * the number of books per genre, the total amount of
+	 * books in the library, the list of books that are
+	 * currently checked out, the list of users that owe
+	 * money from books that have been checked out for too
+	 * long along with the money they owe, and the total
+	 * fees owed to the library.
+	 * @throws IOException if the output directory is invalid
+	 */
 	public void generateReport() throws IOException {
 		
 		String output = "\t\t\t\tREPORT\n\n";
@@ -285,13 +295,18 @@ public class LibraryCatalog {
 		 * How you do the count is up to you. You can make a method, use the searchForBooks()
 		 * function or just do the count right here.
 		 */
-		output += "Adventure\t\t\t\t\t" + (/*Place here the amount of adventure books*/) + "\n";
-		output += "Fiction\t\t\t\t\t\t" + (/*Place here the amount of fiction books*/) + "\n";
-		output += "Classics\t\t\t\t\t" + (/*Place here the amount of classics books*/) + "\n";
-		output += "Mystery\t\t\t\t\t\t" + (/*Place here the amount of mystery books*/) + "\n";
-		output += "Science Fiction\t\t\t\t\t" + (/*Place here the amount of science fiction books*/) + "\n";
+		int totalBooks = searchForBook(x -> x.getGenre().equals("Adventure")).size() +
+				searchForBook(x -> x.getGenre().equals("Fiction")).size() +
+				searchForBook(x -> x.getGenre().equals("Classics")).size() +
+				searchForBook(x -> x.getGenre().equals("Mystery")).size() +
+				searchForBook(x -> x.getGenre().equals("Science Fiction")).size();
+		output += "Adventure\t\t\t\t\t" + (searchForBook(x -> x.getGenre().equals("Adventure")).size()) + "\n";
+		output += "Fiction\t\t\t\t\t\t" + (searchForBook(x -> x.getGenre().equals("Fiction")).size()) + "\n";
+		output += "Classics\t\t\t\t\t" + (searchForBook(x -> x.getGenre().equals("Classics")).size()) + "\n";
+		output += "Mystery\t\t\t\t\t\t" + (searchForBook(x -> x.getGenre().equals("Mystery")).size()) + "\n";
+		output += "Science Fiction\t\t\t\t\t" + (searchForBook(x -> x.getGenre().equals("Science Fiction")).size()) + "\n";
 		output += "====================================================\n";
-		output += "\t\t\tTOTAL AMOUNT OF BOOKS\t" + (/*Place here the total number of books*/) + "\n\n";
+		output += "\t\t\tTOTAL AMOUNT OF BOOKS\t" + (totalBooks) + "\n\n";
 		
 		/*
 		 * This part prints the books that are currently checked out
@@ -306,10 +321,14 @@ public class LibraryCatalog {
 		 * 
 		 * PLACE CODE HERE
 		 */
+		List<Book> checkedOutBooks = searchForBook(x -> x.isCheckedOut());
+		for (Book e : checkedOutBooks) {
+			output += e.toString() + "\n";
+		}
 		
 		
 		output += "====================================================\n";
-		output += "\t\t\tTOTAL AMOUNT OF BOOKS\t" (/*Place here the total number of books that are checked out*/) + "\n\n";
+		output += "\t\t\tTOTAL AMOUNT OF BOOKS\t" + (checkedOutBooks.size()) + "\n\n";
 		
 		
 		/*
@@ -331,12 +350,23 @@ public class LibraryCatalog {
 		 * 
 		 * PLACE CODE HERE!
 		 */
+		List<User> owingUsers = searchForUsers(x -> x.getCheckedOutList().size() > 0);
+		float totalFees = 0;
+		for (User e : owingUsers) {
+			float fees = 0;
+			for (Book b : e.getCheckedOutList()){
+				fees += b.calculateFees();
+			}
+			totalFees += fees;
+			
+			output += e.getName() + "\t\t\t\t\t$" + String.format("%.2f", fees) + "\n";
+		}
 
 			
 		output += "====================================================\n";
-		output += "\t\t\t\tTOTAL DUE\t$" + (/*Place here the total amount of money owed to the library.*/) + "\n\n\n";
+		output += "\t\t\t\tTOTAL DUE\t$" + (String.format("%.2f", totalFees)) + "\n\n\n";
 		output += "\n\n";
-		System.out.println(output);// You can use this for testing to see if the report is as expected.
+		//System.out.println(output);// You can use this for testing to see if the report is as expected.
 		
 		/*
 		 * Here we will write to the file.
@@ -345,7 +375,9 @@ public class LibraryCatalog {
 		 * 
 		 * PLACE CODE HERE!!
 		 */
-		
+		var writer = new BufferedWriter(new FileWriter("report/output_report.txt"));
+		writer.write(output);
+		writer.close();
 	}
 	
 	/*
@@ -366,7 +398,9 @@ public class LibraryCatalog {
 		List<Book> toReturn = new SinglyLinkedList<Book>();
 		for (Book e : catalog) {
 			if (func.filter(e)) {
-				toReturn.add(0, e);
+				//Here I am adding at the end so that the generated report matches
+				//the expected report
+				toReturn.add(e);
 			}
 		}
 		return toReturn;
@@ -383,7 +417,9 @@ public class LibraryCatalog {
 		List<User> toReturn = new SinglyLinkedList<User>();
 		for (User e : users) {
 			if (func.filter(e)) {
-				toReturn.add(0, e);
+				//Here I am adding at the end so that the generated report matches
+				//the expected report
+				toReturn.add(e);
 			}
 		}
 		return toReturn;

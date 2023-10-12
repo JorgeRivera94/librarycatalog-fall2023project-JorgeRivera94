@@ -214,7 +214,7 @@ public class Book {
 		long daysOverdue = cutOffDate.until(currentDate, ChronoUnit.DAYS);
 		
 		if (daysOverdue < 0) {
-			return 10;
+			return 0;
 		}
 		else {
 			double fees = 10 + 1.5 * daysOverdue;
