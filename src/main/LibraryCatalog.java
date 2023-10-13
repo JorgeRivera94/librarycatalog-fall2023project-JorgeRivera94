@@ -384,7 +384,7 @@ public class LibraryCatalog {
 		 * 
 		 * PLACE CODE HERE!!
 		 */
-		var writer = new BufferedWriter(new FileWriter("report/output_report.txt"));
+		var writer = new BufferedWriter(new FileWriter("report/report.txt"));
 		writer.write(output);
 		writer.close();
 	}
